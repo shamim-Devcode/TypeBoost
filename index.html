@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Practice with Accuracy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      font-size: 1.8em;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .target-text {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      color: #555;
+      line-height: 1.6;
+    }
+    .input-box {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2em;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .input-box.wrong {
+      border-color: #e63946;
+    }
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #e63946;
+    }
+    .accuracy {
+      margin-top: 10px;
+      font-size: 1em;
+      color: #333;
+    }
+    .highlighted-text {
+      display: inline;
+      transition: color 0.2s ease;
+    }
+    .correct {
+      color: green; /* Green for correct letters */
+    }
+    .incorrect {
+      color: #e63946; /* Red for incorrect letters */
+    }
+    .remaining {
+      color: #555; /* Neutral color for untyped characters */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Typing Practice with Accuracy</h2>
+    <div class="target-text" id="highlightedText"></div>
+    <input type="text" id="typingInput" class="input-box" placeholder="Start typing here...">
+    <div class="message" id="message"></div>
+    <div class="accuracy" id="accuracy">Accuracy: 0%</div>
+  </div>
+
+  <script>
+    const targetText = "AQZ SWX DEC FRVGTB JUMHYN KI, LO. ;P/";
+    const typingInput = document.getElementById('typingInput');
+    const message = document.getElementById('message');
+    const accuracyDisplay = document.getElementById('accuracy');
+    const highlightedText = document.getElementById('highlightedText');
+
+    // Display target text initially
+    highlightedText.textContent = targetText;
+
+    typingInput.addEventListener('input', () => {
+      const userInput = typingInput.value;
+      const targetLower = targetText.toLowerCase();
+      const userInputLower = userInput.toLowerCase();
+
+      // Check if the entire text is typed correctly
+      if (userInputLower === targetLower) {
+        message.textContent = "Well done! You typed it correctly.";
+        message.style.color = "#2b7a78";
+
+        // Delay for 1 second before resetting
+        setTimeout(() => {
+          typingInput.value = "";
+          message.textContent = "";
+          accuracyDisplay.textContent = "Accuracy: 0%";
+          updateHighlightedText("");  // Reset highlighted text
+        }, 2000);
+      } else if (!targetLower.startsWith(userInputLower)) {
+        // Display error and reset if typing is incorrect
+        message.textContent = "Incorrect! Restart typing.";
+        message.style.color = "#e63946";
+        typingInput.classList.add("wrong");
+        setTimeout(() => {
+          typingInput.value = "";
+          typingInput.classList.remove("wrong");
+          message.textContent = "";
+          accuracyDisplay.textContent = "Accuracy: 0%";
+          updateHighlightedText("");
+        }, 1500);
+      } else {
+        message.textContent = "";
+        typingInput.classList.remove("wrong");
+      }
+
+      // Update highlighted text with color feedback
+      updateHighlightedText(userInputLower);
+
+      // Calculate accuracy percentage
+      let correctCharacters = 0;
+      for (let i = 0; i < userInputLower.length; i++) {
+        if (userInputLower[i] === targetLower[i]) {
+          correctCharacters++;
+        }
+      }
+
+      const accuracy = ((correctCharacters / targetText.length) * 100).toFixed(2);
+      accuracyDisplay.textContent = `Accuracy: ${accuracy}%`;
+    });
+
+    // Function to update the highlighted text
+    function updateHighlightedText(userInput) {
+      let highlightedHTML = "";
+      for (let i = 0; i < targetText.length; i++) {
+        if (i < userInput.length) {
+          if (userInput[i] === targetText[i].toLowerCase()) {
+            highlightedHTML += `<span class="highlighted-text correct">${targetText[i]}</span>`;
+          } else {
+            highlightedHTML += `<span class="highlighted-text incorrect">${targetText[i]}</span>`;
+          }
+        } else {
+          highlightedHTML += `<span class="highlighted-text remaining">${targetText[i]}</span>`;
+        }
+      }
+      highlightedText.innerHTML = highlightedHTML;
+    }
+  </script>
+</body>
+</html>
