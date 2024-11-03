@@ -77,15 +77,40 @@
     .remaining {
       color: #555; /* Neutral color for untyped characters */
     }
+    footer {
+      display: block;
+      text-align: center;
+      padding: 15px 0;
+      background-color: transparent;
+      color: #000000;
+      margin-top: 30px;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #00bcd4;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Typing Practice with Accuracy</h2>
     <div class="target-text" id="highlightedText"></div>
-    <input type="text" id="typingInput" class="input-box" placeholder="Start typing here...">
+    <input type="text" id="typingInput" class="input-box" placeholder="Start typing here..." autofocus>
     <div class="message" id="message"></div>
     <div class="accuracy" id="accuracy">Accuracy: 0%</div>
+    <br>
+    <footer>
+        © 2024 Shamim | Let’s connect on
+        <a href="https://www.facebook.com/shamim2127" target="blank">Facebook</a>
+    </footer>
   </div>
 
   <script>
